@@ -74,8 +74,39 @@ Gestor de contraseñas con cifrado en reposo. Proyecto personal de aprendizaje
 ## Estado
 
 - [x] Etapa 0 — Fundación (repo, Docker Compose, esqueleto, /health)
-- [ ] Etapa 1 — Autenticación
+- [x] Etapa 1 — Autenticación (registro, login, JWT)
 - [ ] Etapa 2 — Bóveda (CRUD cifrado)
 - [ ] Etapa 3 — Frontend
 - [ ] Etapa 4 — Endurecimiento
-```
+
+## Probar la autenticación (Etapa 1)
+
+Con todo levantado (`docker compose up --build`):
+
+1. Registrar un usuario:
+
+   ```bash
+   curl -X POST http://localhost:8080/auth/register \
+     -H "Content-Type: application/json" \
+     -d '{"nombre":"Ana","correo":"ana@test.com","password":"password123"}'
+   ```
+
+   Devuelve un `accessToken`.
+
+2. Iniciar sesión:
+
+   ```bash
+   curl -X POST http://localhost:8080/auth/login \
+     -H "Content-Type: application/json" \
+     -d '{"correo":"ana@test.com","password":"password123"}'
+   ```
+
+3. Acceder a la ruta protegida con el token (reemplaza <TOKEN>):
+
+   ```bash
+   curl http://localhost:8080/auth/me \
+     -H "Authorization: Bearer <TOKEN>"
+   ```
+
+   - Con token válido → devuelve tu correo y rol.
+   - Sin token o inválido → 401 Unauthorized.
