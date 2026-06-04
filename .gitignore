@@ -1,0 +1,33 @@
+# ============================================================
+#  SECRETOS - NUNCA subir a Git
+# ============================================================
+.env
+*.env
+!.env.example
+
+# ---- Java / Maven ----
+target/
+*.class
+*.jar
+*.war
+
+# ---- IDEs ----
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# ---- Sistema operativo ----
+.DS_Store
+Thumbs.db
+
+# ---- Logs ----
+*.log
+logs/
+
+# ---- Node (para cuando llegue el frontend en Etapa 3) ----
+node_modules/
+dist/
+.vite/
