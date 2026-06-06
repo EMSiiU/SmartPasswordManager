@@ -4,6 +4,9 @@
 .env
 *.env
 !.env.example
+Docs/context
+CLAUDE.md
+claudeignore.txt
 
 # ---- Java / Maven ----
 target/

@@ -52,14 +52,12 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
-        <!-- Flyway: migraciones versionadas del esquema de la BD -->
+        <!-- Flyway: migraciones versionadas del esquema de la BD.
+             En Spring Boot 4 la autoconfiguracion de Flyway vive en este
+             starter; flyway-core por si solo NO la activa. -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-flyway</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
