@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Design tokens — SmartPass
+   El atributo data-theme en <html> activa el tema.
+   Así un solo toggle cambia TODA la app sin duplicar clases.
+   ============================================================ */
+
+/* Modo claro (por defecto) */
+:root,
+[data-theme="light"] {
+  --bg-app:      #f4f5f7;
+  --bg-surface:  #ffffff;
+  --bg-sidebar:  #ffffff;
+  --bg-hover:    #f0f2f5;
+  --bg-selected: #e8edf5;
+
+  --text-primary:   #111827;
+  --text-secondary: #6b7280;
+  --text-muted:     #9ca3af;
+
+  --border:       #e5e7eb;
+  --border-focus: #3b82f6;
+
+  --accent:       #3b82f6;
+  --accent-hover: #2563eb;
+  --accent-light: #eff6ff;
+
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --danger:  #ef4444;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.10);
+}
+
+/* Modo oscuro */
+[data-theme="dark"] {
+  --bg-app:      #0f1117;
+  --bg-surface:  #1a1d27;
+  --bg-sidebar:  #1a1d27;
+  --bg-hover:    #22263a;
+  --bg-selected: #2a3050;
+
+  --text-primary:   #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted:     #64748b;
+
+  --border:       #2d3147;
+  --border-focus: #60a5fa;
+
+  --accent:       #60a5fa;
+  --accent-hover: #3b82f6;
+  --accent-light: #1e3a5f;
+
+  --success: #4ade80;
+  --warning: #fbbf24;
+  --danger:  #f87171;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.3);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.4);
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-primary);
+  background: var(--bg-app);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar sutil en dark mode */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
