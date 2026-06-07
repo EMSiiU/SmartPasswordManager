@@ -52,6 +52,9 @@ public class SecurityConfig {
                         s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 // Reglas de acceso por ruta.
+                // /auth/** incluye /auth/login, /auth/register, /auth/refresh y /auth/logout.
+                // Estos endpoints nunca requieren un access token válido (es justamente
+                // donde el usuario llega cuando NO tiene uno o se le expiró).
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**", "/health", "/actuator/health").permitAll()
                         .anyRequest().authenticated()

@@ -10,3 +10,12 @@ export async function login(correo: string, password: string): Promise<AuthRespo
   const { data } = await client.post<AuthResponse>('/auth/login', { correo, password })
   return data
 }
+
+/**
+ * Cierra la sesión en el servidor: revoca el refresh token y borra la cookie.
+ * La cookie es HttpOnly, así que el servidor es quien la limpia; JS no puede
+ * borrarla directamente.
+ */
+export async function callLogout(): Promise<void> {
+  await client.post('/auth/logout')
+}

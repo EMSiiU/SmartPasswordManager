@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
 import { getToken, saveToken, clearToken, isTokenExpired, getEmailFromToken } from '../utils/token'
+import { callLogout } from '../api/auth'
 
-// La "forma" del contexto: qué datos y funciones exponemos al resto de la app.
 interface AuthContextType {
   token: string | null
   userEmail: string | null
@@ -12,12 +12,10 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | null>(null)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  // Al inicializar, intentamos restaurar el token de sessionStorage.
-  // Si existe pero ya expiró, lo descartamos (evitamos peticiones que van a fallar).
   const [token, setToken] = useState<string | null>(() => {
     const stored = getToken()
     if (stored && !isTokenExpired(stored)) return stored
-    if (stored) clearToken() // limpiar el expirado
+    if (stored) clearToken()
     return null
   })
 
@@ -25,7 +23,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     token ? getEmailFromToken(token) : null
   )
 
-  // Sincronizar el email cuando cambia el token
   useEffect(() => {
     setUserEmail(token ? getEmailFromToken(token) : null)
   }, [token])
@@ -36,6 +33,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   function logout() {
+    // Fire-and-forget: limpiamos el estado local inmediatamente para
+    // que la UI responda sin esperar. El backend revoca el refresh token
+    // en segundo plano (la cookie se borra en la respuesta del servidor).
+    callLogout().catch(() => {
+      // Si el servidor no está disponible, la cookie expirará sola en 7 días.
+      // El token local ya quedó limpio, así que el usuario no puede operar.
+    })
     clearToken()
     setToken(null)
   }
@@ -47,8 +51,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   )
 }
 
-// Hook personalizado: en vez de importar AuthContext y useContext en cada componente,
-// importas solo este hook. Si lo usas fuera del AuthProvider, lanza un error claro.
 export function useAuth(): AuthContextType {
   const ctx = useContext(AuthContext)
   if (!ctx) throw new Error('useAuth debe usarse dentro de <AuthProvider>')
